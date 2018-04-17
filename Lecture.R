@@ -104,11 +104,11 @@ server <- function(input, output) {
   
   ##Plot
   output$plot <- renderPlot({
-    input$newplot
     
-    plot(x=1:input$obs, y=presidentialForecast$Actual[1:input$obs], xlab = "Indexed Elections", ylab = "vote share of incumbent")
+    plot(x=1:input$obs, y=presidentialForecast$Actual[1:input$obs], xlab = "Indexed Elections", ylab = "vote share of incumbent (%)", xaxt = "n")
     points(x=1:input$obs, y=forecast()[1:input$obs], col = "dark green")
     legend(1,62, c("Actual","Model"), lty=c(3,3), col=c("dark green","black"))
+    axis(1, at = seq(1,15, 1), labels = seq(1952, 2008, 4), las = 2)
     
   })
   
