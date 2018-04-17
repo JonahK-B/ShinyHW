@@ -4,23 +4,6 @@ library("shiny")
 install.packages("EBMAforecast")
 library("EBMAforecast")
 
-### Let's start with an example
-runExample("01_hello") # a histogram
-
-### We can make our own example by modifying this.
-
-
-#### More examples
-runExample("02_text") # tables and data frames
-runExample("03_reactivity") # a reactive expression
-runExample("04_mpg") # global variables
-runExample("05_sliders") # slider bars
-runExample("06_tabsets") # tabbed panels
-runExample("07_widgets") # help text and submit buttons
-runExample("08_html") # Shiny app built from HTML
-runExample("09_upload") # file upload wizard
-runExample("10_download") # file download wizard
-runExample("11_timer") # an automated timer
 
 ## Let's build our own (This is due next Tuesday as a problem set)
 
@@ -124,7 +107,8 @@ server <- function(input, output) {
     input$newplot
     
     plot(x=1:input$obs, y=presidentialForecast$Actual[1:input$obs], xlab = "Indexed Elections", ylab = "vote share of incumbent")
-    points(x=1:input$obs, y=forecast()[1:input$obs], col = "red")
+    points(x=1:input$obs, y=forecast()[1:input$obs], col = "dark green")
+    legend(1,62, c("Actual","Model"), lty=c(3,3), col=c("dark green","black"))
     
   })
   
