@@ -122,8 +122,8 @@ server <- function(input, output) {
   output$plot <- renderPlot({
     input$newplot
     
-    plot(x=1:15, y=presidentialForecast$Actual, xlab = "Indexed Elections", ylab = "vote share of incumbent")
-    points(x=1:15, y=forecast(), col = "red")
+    plot(x=1:input$obs, y=presidentialForecast$Actual[1:input$obs], xlab = "Indexed Elections", ylab = "vote share of incumbent")
+    points(x=1:input$obs, y=forecast()[1:input$obs], col = "red")
     
   })
   
