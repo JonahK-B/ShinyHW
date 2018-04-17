@@ -81,7 +81,8 @@ ui <- fluidPage(
       tableOutput("view"),
       
       ##show Plot
-      plotOutput("plot")
+      plotOutput("plot", click = "plot_click"),
+      verbatimTextOutput("info")
       
     )
   )
@@ -127,6 +128,10 @@ server <- function(input, output) {
     
   })
   
+  ## printing clicked on points
+  output$info <- renderText({
+    paste0("x=", input$plot_click$x, "\ny=", input$plot_click$y)
+  })
   
 }
 
