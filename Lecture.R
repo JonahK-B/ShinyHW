@@ -57,15 +57,18 @@ ui <- fluidPage(
     # Sidebar panel for inputs ----
     sidebarPanel(
       
-      # Input: Selector for choosing dataset ----
-      selectInput(inputId = "dataset",
-                  label = "Choose a dataset:",
-                  choices = c("Campbell", "")),
+      # Input: Selector for choosing model ----
+      selectInput(inputId = "model",
+                  label = "Choose a predictor model:",
+                  choices = c("Campbell", "Campbell","Lewis-Beck","EWT2C2","Fair","Hibbs","Abramowitz")),
       
       # Input: Numeric entry for number of obs to view ----
       numericInput(inputId = "obs",
-                   label = "Number of observations to view:",
-                   value = 10)
+                   label = "View the last how many elections?",
+                   value = 10),
+      
+      ## Clairifying info
+      helpText("Here are the results of presidential forecasts from 1952-2008")
     ),
     
     # Main panel for displaying outputs ----
@@ -75,7 +78,10 @@ ui <- fluidPage(
       verbatimTextOutput("summary"),
       
       # Output: HTML table with requested number of observations ----
-      tableOutput("view")
+      tableOutput("view"),
+      
+      ##show Plot
+      plotOutput("plot")
       
     )
   )
@@ -100,6 +106,27 @@ server <- function(input, output) {
   output$view <- renderTable({
     head(datasetInput(), n = input$obs)
   })
+  
+  ## Choose data set
+  forecast <- reactive({
+    switch(input$model,
+           "Campbell" = presidentialForecast$Campbell,
+           "Lewis-Beck" = presidentialForecast$`Lewis-Beck`,
+           "EWT2C2" = presidentialForecast$EWT2C2,
+           "Fair" = presidentialForecast$Fair,
+           "Hibbs" = presidentialForecast$Hibbs,
+           "Abramowitz" = presidentialForecast$Abramowitz)
+  })
+  
+  ##Plot
+  output$plot <- renderPlot({
+    input$newplot
+    
+    plot(x=1:15, y=presidentialForecast$Actual, xlab = "Indexed Elections", ylab = "vote share of incumbent")
+    points(x=1:15, y=forecast(), col = "red")
+    
+  })
+  
   
 }
 
